@@ -2,6 +2,8 @@
 
 **Unstable! Experimental status.**
 
+[![GoDoc](https://godoc.org/github.com/go-ole/com?status.svg)](https://godoc.org/github.com/go-ole/com)
+
 Bindings to the Windows COM API using either cgo or shared libraries.
 
 You really must either link or build for Windows platform to have the library
