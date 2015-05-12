@@ -1,5 +1,7 @@
 # COM Bindings
 
+**Unstable! Experimental status.**
+
 Bindings to the Windows COM API using either cgo or shared libraries.
 
 You really must either link or build for Windows platform to have the library
@@ -25,14 +27,3 @@ variable.
 The COM package also provides for both 32-bit and 64-bit, so you may also need
 to set the GOARCH environment variable, if you are building for another
 architecture.
-
-# SafeArray Bindings
-
-SafeArray API provides both straight bindings to the Windows API functions for
-handling SafeArray structures. There are also helpers for SafeArray that
-abstract the API from the developer and allow for a more Go experience.
-
-It is recommended that developers use the helper functions and objects for
-SafeArrays, given that the library will return the helper structure. SafeArray
-structure is somewhat complicated to work with and the helpers exist to remove
-the complexity from the developer.
