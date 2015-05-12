@@ -1,4 +1,4 @@
-# Version 0.2
+# Version 0.1
 
 **This is not backwards compatible with version 0.1.**
 
@@ -66,9 +66,3 @@ CreateInstance(clsid, IID_IUnknown, &unknown) // Ignore error.
 ```
 
 This change allows for supporting custom COM interfaces and other default COM interfaces without directly supporting them in the code.
-
-# Version 0.1
-
-This version is stable enough for use. The reason for the low number is to match semantic versioning and also provide some means for improving the API for Go. Also, the COM API is still incomplete, which should not be allowed to be called version 1.0.0.
-
-There is no changelog for this version. Check commits for full list.
