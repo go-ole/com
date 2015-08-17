@@ -6,8 +6,10 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/jacobsantos/go-com/iunknown"
+	"github.com/go-ole/go-com/iunknown"
 )
+
+var WindowsMediaNSSManagerClassID = &GUID{0x92498132, 0x4D1A, 0x4297, [8]byte{0x9B, 0x78, 0x9E, 0x2E, 0x4B, 0xA9, 0x9C, 0x07}}
 
 func TestComSetupAndShutDown(t *testing.T) {
 	defer func() {
@@ -65,13 +67,11 @@ func TestClsidFromProgID_WindowsMediaNSSManager(t *testing.T) {
 		}
 	}()
 
-	expected := &GUID{0x92498132, 0x4D1A, 0x4297, [8]byte{0x9B, 0x78, 0x9E, 0x2E, 0x4B, 0xA9, 0x9C, 0x07}}
-
 	CoInitialize()
 	defer CoUninitialize()
 	actual, err := ClassIDFromProgramID("WMPNSSCI.NSSManager")
 	if err == nil {
-		if !IsEqualGUID(expected, actual) {
+		if !IsEqualGUID(WindowsMediaNSSManagerClassID, actual) {
 			t.Log(err)
 			t.Log(fmt.Sprintf("Actual GUID: %+v\n", actual))
 			t.Fail()
@@ -87,13 +87,11 @@ func TestClsidFromString_WindowsMediaNSSManager(t *testing.T) {
 		}
 	}()
 
-	expected := &GUID{0x92498132, 0x4D1A, 0x4297, [8]byte{0x9B, 0x78, 0x9E, 0x2E, 0x4B, 0xA9, 0x9C, 0x07}}
-
 	CoInitialize()
 	defer CoUninitialize()
 	actual, err := ClassIDFromString("{92498132-4D1A-4297-9B78-9E2E4BA99C07}")
 
-	if !IsEqualGUID(expected, actual) {
+	if !IsEqualGUID(WindowsMediaNSSManagerClassID, actual) {
 		t.Log(err)
 		t.Log(fmt.Sprintf("Actual GUID: %+v\n", actual))
 		t.Fail()
@@ -108,14 +106,12 @@ func TestCreateInstance_WindowsMediaNSSManager(t *testing.T) {
 		}
 	}()
 
-	expected := &GUID{0x92498132, 0x4D1A, 0x4297, [8]byte{0x9B, 0x78, 0x9E, 0x2E, 0x4B, 0xA9, 0x9C, 0x07}}
-
 	CoInitialize()
 	defer CoUninitialize()
 	actual, err := ClassIDFromProgramID("WMPNSSCI.NSSManager")
 
 	if err == nil {
-		if !IsEqualGUID(expected, actual) {
+		if !IsEqualGUID(WindowsMediaNSSManagerClassID, actual) {
 			t.Log(err)
 			t.Log(fmt.Sprintf("Actual GUID: %+v\n", actual))
 			t.Fail()
