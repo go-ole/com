@@ -1,6 +1,16 @@
+# Version 0.2
+
+ * *Requires Go 1.5.* Technically, can be used in 1.4, but won't prevent access to internal packages.
+ * Use internal packages to separate build environments and keep root directory clean.
+ * Move error to its own package. This should remove cyclic dependencies.
+
+## COM Generate Tool
+
+The COM generate tool is new to version 0.2 and allows for generating Go code based off of COM type library information. This is used within the COM library to generate code to reduce the time it takes to implement a COM interface and keep the code uniform throughout.
+
 # Version 0.1
 
-**This is not backwards compatible with version 0.1.**
+** This version is unreleased. **
 
  * *Requires Go 1.4.*
  * Move files to separate directories.
@@ -12,10 +22,6 @@
  * `oleutil` was removed. It is now part of the `api` library.
  * `connect` was removed. It is now part of the COM generate tool.
  * Interface packages can be served by COM.
-
-## COM Generate Tool
-
-The COM generate tool is new to version 0.2 and allows for generating Go code based off of COM type library information. This is used within the COM library to generate code to reduce the time it takes to implement a COM interface and keep the code uniform throughout.
 
 ## Interface Packages
 
