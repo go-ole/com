@@ -1,6 +1,6 @@
 // +build !windows
 
-package error
+package errors
 
 import "fmt"
 

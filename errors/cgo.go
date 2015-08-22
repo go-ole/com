@@ -1,6 +1,6 @@
 // +build windows,cgo
 
-package error
+package errors
 
 // MaybeError returns error if syscall result is one.
 func MaybeError(hr uintptr) (err error) {

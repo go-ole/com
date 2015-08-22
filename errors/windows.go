@@ -1,6 +1,6 @@
 // +build windows,!cgo
 
-package error
+package errors
 
 import (
 	"fmt"

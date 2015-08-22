@@ -1,4 +1,4 @@
-package error
+package errors
 
 // HResultResponseCode are success or error codes.
 type HResultResponseCode uint32
