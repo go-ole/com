@@ -44,7 +44,16 @@ const (
 	COMObjectClassStringErrorCode HResultResponseCode = 0x800401F3
 )
 
+// NotImplementedError is shortcode to OleError not implemented error type.
 var NotImplementedError = NewError(NotImplementedErrorCode)
+
+// HResultToError may return an error from a HResult or nil, no error.
+func HResultToError(hr uintptr, _ uintptr, _ error) (err error) {
+	if hr != 0 {
+		err = NewError(hr)
+	}
+	return
+}
 
 // OleError stores COM errors.
 type OleError struct {
