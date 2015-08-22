@@ -1,4 +1,50 @@
-package com
+package error
+
+// HResultResponseCode are success or error codes.
+type HResultResponseCode uint32
+
+const (
+	// SuccessResponseCode is S_OK
+	SuccessResponseCode HResultResponseCode = 0x00000000
+
+	// UnexpectedErrorCode is E_UNEXPECTED
+	UnexpectedErrorCode HResultResponseCode = 0x8000FFFF
+
+	// NotImplementedErrorCode is E_NOTIMPL
+	NotImplementedErrorCode HResultResponseCode = 0x80004001
+
+	// OutOfMemoryErrorCode is E_OUTOFMEMORY
+	OutOfMemoryErrorCode HResultResponseCode = 0x8007000E
+
+	// InvalidArgumentErrorCode is E_INVALIDARG
+	InvalidArgumentErrorCode HResultResponseCode = 0x80070057
+
+	// NoInterfaceErrorCode is E_NOINTERFACE
+	NoInterfaceErrorCode HResultResponseCode = 0x80004002
+
+	// PointerErrorCode is E_POINTER
+	PointerErrorCode HResultResponseCode = 0x80004003
+
+	// HandleErrorCode is E_HANDLE
+	HandleErrorCode HResultResponseCode = 0x80070006
+
+	// AbortErrorCode is E_ABORT
+	AbortErrorCode HResultResponseCode = 0x80004004
+
+	// FailureErrorCode is E_FAIL
+	FailureErrorCode HResultResponseCode = 0x80004005
+
+	// AccessDeniedErrorCode is E_ACCESSDENIED
+	AccessDeniedErrorCode HResultResponseCode = 0x80070005
+
+	// PendingErrorCode is E_PENDING
+	PendingErrorCode HResultResponseCode = 0x8000000A
+
+	// COMObjectClassStringErrorCode is CO_E_CLASSSTRING
+	COMObjectClassStringErrorCode HResultResponseCode = 0x800401F3
+)
+
+var NotImplementedError = NewError(NotImplementedErrorCode)
 
 // OleError stores COM errors.
 type OleError struct {
@@ -25,14 +71,6 @@ func NewErrorWithDescription(hr uintptr, description string) *OleError {
 // NewErrorWithSubError creates new COM error with parent error.
 func NewErrorWithSubError(hr uintptr, description string, err error) *OleError {
 	return &OleError{hr: hr, description: description, subError: err}
-}
-
-// HResultToError may return an error from a HResult or nil, no error.
-func HResultToError(hr uintptr, _ uintptr, _ error) (err error) {
-	if hr != 0 {
-		err = NewError(hr)
-	}
-	return
 }
 
 // Code is the HResult.
