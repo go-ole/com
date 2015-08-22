@@ -1,8 +1,8 @@
 package com
 
 import (
-	"github.com/jacobsantos/go-com/idispatch"
-	"github.com/jacobsantos/go-com/iunknown"
+	"github.com/go-ole/types/idispatch"
+	"github.com/go-ole/types/iunknown"
 )
 
 // ClassIDFrom retrieves class ID whether given is program ID or application string.
