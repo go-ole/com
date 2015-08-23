@@ -5,9 +5,16 @@ import (
 	"encoding/binary"
 	"io"
 	"reflect"
+	"syscall"
 	"unicode/utf16"
 	"unsafe"
 )
+
+// GetInt32FromCall retrieves Int32 from syscall.
+func GetInt32FromCall(obj, method uintptr) int32 {
+	ret, _, _ := syscall.Syscall(method, 1, obj, 0, 0)
+	return int32(ret)
+}
 
 // BytePtrToString converts byte pointer to a Go string.
 func BytePtrToString(p *byte) string {
