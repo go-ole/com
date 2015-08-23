@@ -4,8 +4,8 @@ import (
 	"time"
 	"unsafe"
 
-	"github.com/jacobsantos/go-com/common/idispatch"
-	"github.com/jacobsantos/go-com/common/iunknown"
+	"github.com/go-ole/types/idispatch"
+	"github.com/go-ole/types/iunknown"
 )
 
 // NewVariant returns new variant based on type and value.
