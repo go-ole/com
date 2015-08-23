@@ -1,12 +1,50 @@
+# Version x.x.x
+
+## COM Generate Tool
+
+The COM generate tool is new to version 0.2 and allows for generating Go code based off of COM type library information. This is used within the COM library to generate code to reduce the time it takes to implement a COM interface and keep the code uniform throughout.
+
 # Version 0.2
 
  * *Requires Go 1.5.* Technically, can be used in 1.4, but won't prevent access to internal packages.
  * Use internal packages to separate build environments and keep root directory clean.
  * Move error to its own package. This should remove cyclic dependencies.
 
-## COM Generate Tool
+## Safe Array
 
-The COM generate tool is new to version 0.2 and allows for generating Go code based off of COM type library information. This is used within the COM library to generate code to reduce the time it takes to implement a COM interface and keep the code uniform throughout.
+Safe array was moved out in `0.1`, but was moved back in version `0.2` to take advantage of internal packages.
+
+### Changes from go-ole
+
+ * No `SafeArrayConversion` object. These have been moved to `Array` object.
+ * `SafeArray` object has been renamed to `COMArray`.
+ * All `SafeArray*()` functions are public and have been renamed.
+
+	"SafeArray" has been removed from the function names and the names have been expanded to play better with Go naming standards.
+
+### Features
+
+ * CGO is supported. (**Still in development. Not tested**)
+ * All SafeArray functions are available and implemented. (IRecordInfo is not available by default)
+ * Conversion for Byte array and String arrays exist.
+ * `Array` object provides helper methods for all available SafeArray functions.
+ * `Array` object provides method for retrieving total number of elements in all dimensions.
+ * `Array` object provides method for appending SafeArray elements to existing Go slice of any type.
+ * `Array` object provides automatically returning Go slice based on SafeArray variant type.
+ * Provides helper for creating COM SafeArray from any Go slice.
+ * All known types are supported and will append to existing type.
+
+	This is done using reflection. The purpose is to allow for any type of Go slice or array to work with SafeArrays and not have to worry too much about creating specific functions for each type to add support.
+
+	The only difference, is that strings and other types may require manual cleanup, but user defined types do not have this problem.
+ * `UnmarshalArray()` exists as a single point of creating a COM SafeArray object.
+ * `MarshalArray()` exists as a single point to convert COM SafeArray object to Go slice.
+ * Multidimensional COM SafeArray are supported.
+
+**In Progress**
+ * Fully documented.
+ * Fully tested.
+ * Supports Go multidimensional slices.
 
 # Version 0.1
 
