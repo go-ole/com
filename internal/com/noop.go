@@ -1,6 +1,6 @@
 // +build !windows
 
-package api
+package com
 
 func BindMoniker(moniker uintptr, option int32, interfaceID *GUID, object interface{}) error {
 	return NotImplementedError
