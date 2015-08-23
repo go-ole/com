@@ -9,8 +9,8 @@ import (
 
 	syscall "golang.org/x/sys/windows"
 
-	"github.com/jacobsantos/go-com/pkg/com"
-	"github.com/jacobsantos/go-com/pkg/iinspectable"
+	"github.com/go-ole/com"
+	"github.com/go-ole/types/iinspectable"
 )
 
 var (
