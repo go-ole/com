@@ -11,7 +11,7 @@ import (
 //
 // EXCEPINFO in Windows API.
 type ExceptionInfo struct {
-	Code              uint16
+	wCode             uint16
 	_                 uint16
 	bstrSource        *uint16
 	bstrDescription   *uint16
