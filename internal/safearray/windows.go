@@ -7,7 +7,6 @@ import (
 	"unsafe"
 
 	"github.com/go-ole/com/errors"
-	"github.com/go-ole/com/safearray"
 	"github.com/go-ole/com/types"
 )
 
@@ -50,7 +49,7 @@ var (
 // AccessData returns raw array.
 //
 // AKA: SafeArrayAccessData in Windows API.
-func AccessData(array *safearray.COMArray) (element uintptr, err error) {
+func AccessData(array *types.COMArray) (element uintptr, err error) {
 	err = errors.HResultToError(procSafeArrayAccessData.Call(
 		uintptr(unsafe.Pointer(array)),
 		uintptr(unsafe.Pointer(&element))))
@@ -60,7 +59,7 @@ func AccessData(array *safearray.COMArray) (element uintptr, err error) {
 // UnaccessData releases raw array.
 //
 // AKA: SafeArrayUnaccessData in Windows API.
-func UnaccessData(array *safearray.COMArray) (err error) {
+func UnaccessData(array *types.COMArray) (err error) {
 	err = errors.HResultToError(procSafeArrayUnaccessData.Call(uintptr(unsafe.Pointer(array))))
 	return
 }
@@ -68,7 +67,7 @@ func UnaccessData(array *safearray.COMArray) (err error) {
 // AllocateArrayData allocates SafeArray.
 //
 // AKA: SafeArrayAllocData in Windows API.
-func AllocateArrayData(array *safearray.COMArray) (err error) {
+func AllocateArrayData(array *types.COMArray) (err error) {
 	err = errors.HResultToError(procSafeArrayAllocData.Call(uintptr(unsafe.Pointer(array))))
 	return
 }
@@ -76,7 +75,7 @@ func AllocateArrayData(array *safearray.COMArray) (err error) {
 // AllocateArrayDescriptor allocates SafeArray.
 //
 // AKA: SafeArrayAllocDescriptor in Windows API.
-func AllocateArrayDescriptor(dimensions uint32) (array *safearray.COMArray, err error) {
+func AllocateArrayDescriptor(dimensions uint32) (array *types.COMArray, err error) {
 	err = errors.HResultToError(procSafeArrayAllocDescriptor.Call(
 		uintptr(dimensions),
 		uintptr(unsafe.Pointer(&array))))
@@ -86,7 +85,7 @@ func AllocateArrayDescriptor(dimensions uint32) (array *safearray.COMArray, err 
 // AllocateArrayDescriptorEx allocates SafeArray.
 //
 // AKA: SafeArrayAllocDescriptorEx in Windows API.
-func AllocateArrayDescriptorEx(variantType types.VariantType, dimensions uint32) (array *safearray.COMArray, err error) {
+func AllocateArrayDescriptorEx(variantType types.VariantType, dimensions uint32) (array *types.COMArray, err error) {
 	err = errors.HResultToError(procSafeArrayAllocDescriptorEx.Call(
 		uintptr(variantType),
 		uintptr(dimensions),
@@ -97,7 +96,7 @@ func AllocateArrayDescriptorEx(variantType types.VariantType, dimensions uint32)
 // Duplicate returns copy of SafeArray.
 //
 // AKA: SafeArrayCopy in Windows API.
-func Duplicate(original *COMArray) (array *safearray.COMArray, err error) {
+func Duplicate(original *types.COMArray) (array *types.COMArray, err error) {
 	err = errors.HResultToError(procSafeArrayCopy.Call(
 		uintptr(unsafe.Pointer(original)),
 		uintptr(unsafe.Pointer(&array))))
@@ -107,7 +106,7 @@ func Duplicate(original *COMArray) (array *safearray.COMArray, err error) {
 // DuplicateData duplicates SafeArray into another SafeArray object.
 //
 // AKA: SafeArrayCopyData in Windows API.
-func DuplicateData(original, duplicate *safearray.COMArray) (err error) {
+func DuplicateData(original, duplicate *types.COMArray) (err error) {
 	err = errors.HResultToError(procSafeArrayCopyData.Call(
 		uintptr(unsafe.Pointer(original)),
 		uintptr(unsafe.Pointer(&duplicate))))
@@ -117,80 +116,80 @@ func DuplicateData(original, duplicate *safearray.COMArray) (err error) {
 // CreateArray creates SafeArray.
 //
 // AKA: SafeArrayCreate in Windows API.
-func CreateArray(variantType types.VariantType, dimensions uint32, bounds *safearray.Bounds) (array *safearray.COMArray, err error) {
+func CreateArray(variantType types.VariantType, dimensions uint32, bounds *types.Bounds) (array *types.COMArray, err error) {
 	sa, _, err := procSafeArrayCreate.Call(
 		uintptr(variantType),
 		uintptr(dimensions),
 		uintptr(unsafe.Pointer(bounds)))
-	array = (*safearray.COMArray)(unsafe.Pointer(&sa))
+	array = (*types.COMArray)(unsafe.Pointer(&sa))
 	return
 }
 
 // CreateArrayEx creates SafeArray.
 //
 // AKA: SafeArrayCreateEx in Windows API.
-func CreateArrayEx(variantType types.VariantType, dimensions uint32, bounds *safearray.Bounds, extra uintptr) (array *safearray.COMArray, err error) {
+func CreateArrayEx(variantType types.VariantType, dimensions uint32, bounds *types.Bounds, extra uintptr) (array *types.COMArray, err error) {
 	sa, _, err := procSafeArrayCreateEx.Call(
 		uintptr(variantType),
 		uintptr(dimensions),
 		uintptr(unsafe.Pointer(bounds)),
 		extra)
-	array = (*safearray.COMArray)(unsafe.Pointer(sa))
+	array = (*types.COMArray)(unsafe.Pointer(sa))
 	return
 }
 
 // CreateArrayVector creates SafeArray.
 //
 // AKA: SafeArrayCreateVector in Windows API.
-func CreateArrayVector(variantType types.VariantType, lowerBound int32, length uint32) (array *safearray.COMArray, err error) {
+func CreateArrayVector(variantType types.VariantType, lowerBound int32, length uint32) (array *types.COMArray, err error) {
 	sa, _, err := procSafeArrayCreateVector.Call(
 		uintptr(variantType),
 		uintptr(lowerBound),
 		uintptr(length))
-	array = (*safearray.COMArray)(unsafe.Pointer(sa))
+	array = (*types.COMArray)(unsafe.Pointer(sa))
 	return
 }
 
-func CreateArrayVectorEx(variantType types.VariantType, lowerBound int32, length uint32, extra uintptr) (array *safearray.COMArray, err error) {
+func CreateArrayVectorEx(variantType types.VariantType, lowerBound int32, length uint32, extra uintptr) (array *types.COMArray, err error) {
 	sa, _, err := procSafeArrayCreateVectorEx.Call(
 		uintptr(variantType),
 		uintptr(lowerBound),
 		uintptr(length),
 		extra)
-	array = (*safearray.COMArray)(unsafe.Pointer(sa))
+	array = (*types.COMArray)(unsafe.Pointer(sa))
 	return
 }
 
-func Destroy(array *safearray.COMArray) error {
+func Destroy(array *types.COMArray) error {
 	return errors.HResultToError(procSafeArrayDestroy.Call(uintptr(unsafe.Pointer(array))))
 }
 
-func DestroyData(array *safearray.COMArray) error {
+func DestroyData(array *types.COMArray) error {
 	return errors.HResultToError(procSafeArrayDestroyData.Call(uintptr(unsafe.Pointer(array))))
 }
 
-func DestroyDescriptor(array *safearray.COMArray) error {
+func DestroyDescriptor(array *types.COMArray) error {
 	return errors.HResultToError(procSafeArrayDestroyDescriptor.Call(uintptr(unsafe.Pointer(array))))
 }
 
-func GetDimensions(array *safearray.COMArray) (dimensions uint32, err error) {
+func GetDimensions(array *types.COMArray) (dimensions uint32, err error) {
 	l, _, err := procSafeArrayGetDim.Call(uintptr(unsafe.Pointer(array)))
 	dimensions = *(*uint32)(unsafe.Pointer(l))
 	return
 }
 
-func GetElementSize(array *safearray.COMArray) (length uint32, err error) {
+func GetElementSize(array *types.COMArray) (length uint32, err error) {
 	l, _, err := procSafeArrayGetElemsize.Call(uintptr(unsafe.Pointer(array)))
 	length = *(*uint32)(unsafe.Pointer(l))
 	return
 }
 
-func GetElement(array *safearray.COMArray, index int64) (element interface{}, err error) {
+func GetElement(array *types.COMArray, index int64) (element interface{}, err error) {
 	err = GetElementDirect(array, index, &element)
 	return
 }
 
-func GetElementDirect(array *safearray.COMArray, index int64, element interface{}) (err error) {
+func GetElementDirect(array *types.COMArray, index int64, element interface{}) (err error) {
 	err = errors.HResultToError(procSafeArrayGetElement.Call(
 		uintptr(unsafe.Pointer(array)),
 		uintptr(index),
@@ -198,14 +197,14 @@ func GetElementDirect(array *safearray.COMArray, index int64, element interface{
 	return
 }
 
-func GetInterfaceID(array *safearray.COMArray) (guid *types.GUID, err error) {
+func GetInterfaceID(array *types.COMArray) (guid *types.GUID, err error) {
 	err = errors.HResultToError(procSafeArrayGetIID.Call(
 		uintptr(unsafe.Pointer(array)),
 		uintptr(unsafe.Pointer(&guid))))
 	return
 }
 
-func GetLowerBound(array *safearray.COMArray, dimension uint32) (lowerBound int64, err error) {
+func GetLowerBound(array *types.COMArray, dimension uint32) (lowerBound int64, err error) {
 	err = errors.HResultToError(procSafeArrayGetLBound.Call(
 		uintptr(unsafe.Pointer(array)),
 		uintptr(dimension),
@@ -213,7 +212,7 @@ func GetLowerBound(array *safearray.COMArray, dimension uint32) (lowerBound int6
 	return
 }
 
-func GetUpperBound(array *safearray.COMArray, dimension uint32) (upperBound int64, err error) {
+func GetUpperBound(array *types.COMArray, dimension uint32) (upperBound int64, err error) {
 	err = errors.HResultToError(procSafeArrayGetUBound.Call(
 		uintptr(unsafe.Pointer(array)),
 		uintptr(dimension),
@@ -221,7 +220,7 @@ func GetUpperBound(array *safearray.COMArray, dimension uint32) (upperBound int6
 	return
 }
 
-func GetVariantType(array *safearray.COMArray) (varType types.VariantType, err error) {
+func GetVariantType(array *types.COMArray) (varType types.VariantType, err error) {
 	var vt uint16
 	err = errors.HResultToError(procSafeArrayGetVartype.Call(
 		uintptr(unsafe.Pointer(array)),
@@ -230,17 +229,17 @@ func GetVariantType(array *safearray.COMArray) (varType types.VariantType, err e
 	return
 }
 
-func Lock(array *safearray.COMArray) (err error) {
+func Lock(array *types.COMArray) (err error) {
 	err = errors.HResultToError(procSafeArrayLock.Call(uintptr(unsafe.Pointer(array))))
 	return
 }
 
-func Unlock(array *safearray.COMArray) (err error) {
+func Unlock(array *types.COMArray) (err error) {
 	err = errors.HResultToError(procSafeArrayUnlock.Call(uintptr(unsafe.Pointer(array))))
 	return
 }
 
-func GetPointerOfIndex(array *safearray.COMArray, index int64) (ref uintptr, err error) {
+func GetPointerOfIndex(array *types.COMArray, index int64) (ref uintptr, err error) {
 	err = errors.HResultToError(procSafeArrayPtrOfIndex.Call(
 		uintptr(unsafe.Pointer(array)),
 		uintptr(index),
@@ -248,21 +247,21 @@ func GetPointerOfIndex(array *safearray.COMArray, index int64) (ref uintptr, err
 	return
 }
 
-func SetInterfaceID(array *safearray.COMArray, interfaceID *types.GUID) (err error) {
+func SetInterfaceID(array *types.COMArray, interfaceID *types.GUID) (err error) {
 	err = errors.HResultToError(procSafeArraySetIID.Call(
 		uintptr(unsafe.Pointer(array)),
 		uintptr(unsafe.Pointer(interfaceID))))
 	return
 }
 
-func ResetDimensions(array *safearray.COMArray, bounds *safearray.Bounds) error {
+func ResetDimensions(array *types.COMArray, bounds *types.Bounds) error {
 	err = errors.HResultToError(procSafeArrayRedim.Call(
 		uintptr(unsafe.Pointer(array)),
 		uintptr(unsafe.Pointer(bounds))))
 	return
 }
 
-func PutElement(array *safearray.COMArray, index int64, element interface{}) (err error) {
+func PutElement(array *types.COMArray, index int64, element interface{}) (err error) {
 	err = errors.HResultToError(procSafeArrayPutElement.Call(
 		uintptr(unsafe.Pointer(array)),
 		uintptr(index),
@@ -270,14 +269,14 @@ func PutElement(array *safearray.COMArray, index int64, element interface{}) (er
 	return
 }
 
-func GetRecordInfo(array *safearray.COMArray) (recordInfo interface{}, err error) {
+func GetRecordInfo(array *types.COMArray) (recordInfo interface{}, err error) {
 	err = errors.HResultToError(procSafeArrayGetRecordInfo.Call(
 		uintptr(unsafe.Pointer(array)),
 		uintptr(unsafe.Pointer(&recordInfo))))
 	return
 }
 
-func SetRecordInfo(array *safearray.COMArray, recordInfo interface{}) (err error) {
+func SetRecordInfo(array *types.COMArray, recordInfo interface{}) (err error) {
 	err = errors.HResultToError(procSafeArraySetRecordInfo.Call(
 		uintptr(unsafe.Pointer(array)),
 		uintptr(unsafe.Pointer(recordInfo))))
