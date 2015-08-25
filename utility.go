@@ -1,10 +1,6 @@
 package com
 
 import (
-	"bytes"
-	"encoding/binary"
-	"io"
-	"reflect"
 	"syscall"
 	"unicode/utf16"
 	"unsafe"
@@ -87,88 +83,8 @@ func lpOleStrLen(p *uint16) (length int64) {
 	return
 }
 
-// PointerToByteArray convert to bytes array.
-//
-// Warning:
-// While it is technically possible to have count be an arbitrary large number,
-// it is unwise to do so. Attempting to do so is undefined and may have security
-// or stability issues. The security issues from including outside boundary data
-// or stability issues from attempting to extend outside the bounds of the
-// current data block and causing an OS fault.
-func PointerToByteArray(ptr uintptr, count uint32, t reflect.Type) []byte {
-	byteCount := count * uint32(t.Size())
-	slicehdr := reflect.SliceHeader{Data: ptr, Len: int(byteCount), Cap: int(byteCount)}
-	return *(*[]byte)(unsafe.Pointer(&slicehdr))
-}
-
-// PointerToArrayAppend appends to an existing array from a pointer of an array.
-//
-// array should be passed as a reference.
-//
-//     err := PointerToArrayAppend(uintptr(0), 0, &array)
-//
-// Warning:
-// While it is technically possible to have count be an arbitrary large number,
-// it is unwise to do so. Attempting to do so is undefined and may have security
-// or stability issues. The security issues from including outside boundary data
-// or stability issues from attempting to extend outside the bounds of the
-// current data block and causing an OS fault.
-func PointerToArrayAppend(ptr uintptr, count uint32, array interface{}) (err error) {
-	t := reflect.TypeOf(array)
-
-	bytes = PointerToByteArray(ptr, count, t)
-	reader := bytes.NewReader(bytes)
-
-	for {
-		element := reflect.New(t).Interface()
-		err = binary.Read(reader, binary.LittleEndian, &element)
-		if err != nil {
-			if err == io.EOF {
-				// Ignore EOF error as this is expected
-				err = nil
-			}
-			return
-		}
-		*array = append(array, element)
-	}
-
-	return
-}
-
-// PointerToArray converts a pointer of an array to a Go array type.
-//
-// The returned array will still need to be converted to the array type. This is
-// from the return type being an interface{}, instead of the type of current.
-//
-//     array, err := PointerToArrayAppend(uintptr(0), 0, []byte{})
-//
-//     if err != nil {
-//         return
-//     }
-//
-//     bytes := array.([]byte)
-//
-// Warning:
-// While it is technically possible to have count be an arbitrary large number,
-// it is unwise to do so. Attempting to do so is undefined and may have security
-// or stability issues. The security issues from including outside boundary data
-// or stability issues from attempting to extend outside the bounds of the
-// current data block and causing an OS fault.
-func PointerToArray(ptr uintptr, count uint32, current interface{}) (array interface{}, err error) {
-	t := reflect.TypeOf(current)
-
-	bytes = PointerToByteArray(ptr, count, t)
-	reader := bytes.NewReader(bytes)
-
-	array = reflect.MakeSlice(t, int(count), int(count))
-	for i, _ := range array {
-		element := reflect.New(t).Interface()
-		err = binary.Read(reader, binary.LittleEndian, &element)
-		if err != nil {
-			return
-		}
-		array[i] = element
-	}
-
-	return
+// GetInt32FromCall retrieves Int32 from syscall.
+func GetInt32FromCall(obj, method uintptr) int32 {
+	ret, _, _ := syscall.Syscall(method, 1, obj, 0, 0)
+	return int32(ret)
 }
