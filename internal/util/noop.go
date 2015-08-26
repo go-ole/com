@@ -6,6 +6,9 @@ import (
 	"unsafe"
 
 	"github.com/go-ole/com/errors"
+	"github.com/go-ole/com/types"
+	"github.com/go-ole/types/idispatch"
+	"github.com/go-ole/types/iunknown"
 )
 
 func SysAllocString(v string) *int16 {
@@ -40,10 +43,10 @@ func GetUserDefaultLocaleID() uint32 {
 	return 0
 }
 
-func GetMessage(msg *Msg, hwnd uint32, MsgFilterMin uint32, MsgFilterMax uint32) (int32, error) {
+func GetMessage(msg *types.Msg, hwnd, MsgFilterMin, MsgFilterMax uint32) (int32, error) {
 	return 0, errors.NotImplementedError
 }
 
-func DispatchMessage(msg *Msg) int32 {
+func DispatchMessage(msg *types.Msg) int32 {
 	return 0
 }
